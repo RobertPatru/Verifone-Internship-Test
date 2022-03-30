@@ -1,0 +1,259 @@
+:root {
+    /* I picked the colors in paint using the color picker, they may not match perfectly*/
+    --gray-for-text: rgb(53, 68, 88);
+    --gray-for-borders: rgb(223, 227, 237);
+    --gray-for-cart-background: rgb(240, 243, 248);
+    --gary-for-body-background: rgb(248, 249, 251);
+    --green: rgb(27, 180, 63);
+    --blue: rgb(77, 157, 235);
+    --blue-for-checkout-underline: rgb(38, 137, 230);
+}
+
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+}
+
+body {
+    /* You didn't provide the font's name so I picked something */
+    font-family: 'Roboto', sans-serif;
+    color: var(--gray-for-text);
+    background-color: var(--gary-for-body-background);
+
+    /* centering the container in the middle of the page */
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1,
+h4 {
+    font-weight: 400;
+}
+
+h3 {
+    font-weight: 500;
+}
+
+/* I'm adding space between the cart and text */
+i {
+    margin-right: 10px;
+}
+
+
+
+
+/* ======================       Utility classes */
+.display-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-start {
+    align-items: flex-start;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* padding-1 is a utility class for padding all around lvl 1(the smallest) */
+.padding-10 {
+    padding: 10px;
+}
+
+.padding-20 {
+    padding: 20px;
+}
+
+.margin-y-5 {
+    margin: 10px 0;
+}
+
+.margin-y-10 {
+    margin: 10px 0;
+}
+
+
+/* ########################### */
+.page-title {
+    position: relative;
+    line-height: 2;
+    margin-bottom: 30px;
+}
+
+/* add the blue underline */
+.page-title::after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 0;
+    border-bottom: 3px var(--blue-for-checkout-underline) solid;
+    width: 50px;
+}
+
+/* ======================       Products Section Styles */
+/* add space between the two sections, products info and cart info */
+.products-section {
+    margin-right: 30px;
+    min-width: 600px;
+}
+
+.product-container {
+    min-width: 500px;
+    background-color: white;
+ 
+    /* I couldn't match the borders using box-shadow */
+
+    border: 2px var(--gray-for-borders) solid;
+    border-bottom: 3px var(--gray-for-borders) solid;
+    border-radius: 5px;
+
+    font-weight: 600;
+}
+
+.product-title {
+    min-width: 150px;
+}
+
+.add-to-cart-button {
+    background-color: var(--green);
+    color: white;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 20px;
+}
+
+.add-to-cart-button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.price {
+    color: var(--blue);
+}
+
+
+/* ======================       Products Section Styles */
+.shoping-cart-section {
+    background-color: var(--gray-for-cart-background);
+    border: 3px var(--gray-for-borders) solid;
+    border-radius: 5px;
+    min-width: 400px;
+}
+
+/* Select the first element after "shoping-cart-selection". In my situation this would be:
+    |   <h4>Products in your shopping cart</h4>     |
+*/
+.shoping-cart-section > h4:first-of-type {
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.col-titles-container {
+    font-size: 15px;
+    border-bottom: 2px var(--gray-for-borders) solid;
+    line-height: 2;
+}
+
+/* ######################################### */
+.col-product-info {
+    border-bottom: 2px var(--gray-for-text) solid;
+
+    /* I'm adding line-height for the underline whitch is located under Product Name | Quantity | Value */
+    line-height: 3.5;
+}
+
+/* select all the h3 inside .col-product-info */
+.col-product-info > h3 {
+    font-weight: 800;
+}
+
+/* select the info sign */
+.info-sign {
+    font-size: 20px;
+    position: relative;
+}
+
+.info-sign:hover {
+    cursor: pointer;
+}
+
+/* when the user hover over "info" icon a short description will appear */
+.info-sign:hover .short-descripton-about-product {
+    display: block;
+}
+
+.short-descripton-about-product {
+    display: none;
+    position: absolute;
+    top: calc(-35px);
+    left: 30px;
+    width: 200px;
+    height: 100px;
+
+    border: 2px var(--gray-for-borders) solid;
+    border-radius: 5px;
+    background-color: white;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+input[type="number"] {
+    padding: 5px;
+    width: 50px;
+    height: 30px;
+}
+
+.product-name,
+.value {
+    font-size: 15px;
+}
+/* ######################################### */
+
+.total-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* select all h3 elemets thar are children of "total-container" */
+.total-container > h3 {
+    font-weight: 700;
+    margin: 20px 0;
+}
+
+.total-value {
+    margin-left: 10px;
+}
+
+.continue-button {
+    background-color: var(--green);
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 0;
+    border-radius: 5px;
+}
+
+.continue-button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
