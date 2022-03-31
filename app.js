@@ -90,11 +90,42 @@ function addToCart(productName) {
                 </span>
                 </h3>
 
-                <input type="number" name="quantity" id="product-qunatit" value="1">
-                <h3 class="value">$${dataCopy[i].price}.00</h3>
+                <input type="number" name="quantity" class="product-qunatit" value="1">
+                <h3 class="value">$ ${dataCopy[i].price.toFixed(2)}</h3>
             `;
         }
+
+        prices.push(dataCopy[i].price);
+        qunatities.push(1);
     }
 
+
     document.querySelector('.col-product-info').append(product);
+    updatePrice();
 }
+
+// I'm creating two arrays that will contain all the prices and quntiteis for each element
+// Eg. elem 1: price - 15.95, qunatity - 1
+let prices = [];
+let qunatities = [];
+
+
+function updatePrice () {
+    // the total price the user has to pay
+    let totalSum = 0;
+
+    // the total sum will be the result of the price multiplied bt it's qunatity
+    for (let i = 0; i < prices.length; i++) {
+        totalSum += prices[i] * qunatities[i];
+    }
+
+    document.querySelector('.total-value').innerHTML = `$ ${totalSum.toFixed(2)}`;
+}
+
+document.body.addEventListener('click', (element) => {
+    if(element.target.classList.contains('product-qunatit')) {
+        if (element.target.value == 0 || element.target.value < 0) {
+            element.target.parentElement.remove();
+        }
+    }
+});

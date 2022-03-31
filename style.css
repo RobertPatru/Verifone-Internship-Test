@@ -226,11 +226,16 @@ input[type="number"] {
     padding: 5px;
     width: 50px;
     height: 30px;
+    margin-left: -50px;
 }
 
 .product-name,
 .value {
     font-size: 15px;
+}
+
+.product-name {
+    min-width: 140px;
 }
 /* ######################################### */
 
