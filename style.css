@@ -184,6 +184,12 @@ i {
     font-weight: 800;
 }
 
+/* I did a mistake with thinking the application archtecture*/
+/* The div that contains the class below was added at the end, only after adding  the producs in the shoping cart dynamic*/
+.product-container-in-cart {
+    width: 100%;
+}
+
 /* select the info sign */
 .info-sign {
     font-size: 20px;
