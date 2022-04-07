@@ -1,6 +1,3 @@
-// This is a copy of the date received through API
-let dataCopy = [];
-
 fetch('http://private-32dcc-products72.apiary-mock.com/product', {
     method: 'GET',
 })
@@ -36,16 +33,9 @@ fetch('http://private-32dcc-products72.apiary-mock.com/product', {
             </div>
             `; 
         }
-
-       
+  
 
         document.querySelector('.products-section').innerHTML = products;
-
-        // just copy all the information from data to dataCopy
-        // I made this decision so I will be able to search throgh the dataCopy when I add an item in the cart
-        for (let i = 0; i < data.length; i++) {
-            dataCopy[i] = data[i];
-        }
     })
     .catch(error => console.log('ERROR'));
 
@@ -69,63 +59,84 @@ function verifyElement(element) {
 
 function addToCart(productName) {
     productName.parentElement.remove();
-
+    
     // create the div that will be the container for the new element added into the card
     let product = document.createElement('div');
 
     // add classes for the newly created div
-    product.classList.add('product-container-in-cart', 'display-flex', 'space-between');
+    product.classList.add('product-container-in-cart', 'display-flex', 'space-between', 'item');
 
-
-    // loop through the dataCopy and when the product clicked is found add it in the cart
-    for (let i = 0; i < dataCopy.length; i++) {
-        if (dataCopy[i].name == productName.textContent) {
-          
-            product.innerHTML = `
-                <h3 class="product-name">${dataCopy[i].name}
-                <span class="info-sign"> &#128712;
-                    <div class="short-descripton-about-product display-flex padding-10">
-                        <p>This is a short description about this awesome product that appear only on hover.</p>
-                    </div>
-                </span>
-                </h3>
-
-                <input type="number" name="quantity" class="product-qunatit" value="1">
-                <h3 class="value">$ ${dataCopy[i].price.toFixed(2)}</h3>
-            `;
-        }
-
-        prices.push(dataCopy[i].price);
-        qunatities.push(1);
-    }
-
+    
+    product.innerHTML = `
+        <h3 class="product-name">${productName.textContent}
+        <span class="info-sign"> &#128712;
+            <div class="short-descripton-about-product display-flex padding-10">
+                <p>This is a short description about this awesome product that appear only on hover.</p>
+            </div>
+        </span>
+        </h3>
+        <input type="number" name="quantity" class="product-qunatity" value="1">
+        <h3 class="value">$${productName.nextSibling.nextSibling.children[0].innerText.replace('$', '')}</h3>
+    `;
+     
 
     document.querySelector('.col-product-info').append(product);
-    updatePrice();
+
+   // update the price when add to cart is pressed
+    updatePrice();  
 }
 
-// I'm creating two arrays that will contain all the prices and quntiteis for each element
-// Eg. elem 1: price - 15.95, qunatity - 1
-let prices = [];
-let qunatities = [];
-
-
+// update the price
 function updatePrice () {
-    // the total price the user has to pay
+    const itemsElements = document.querySelectorAll('.item');
+    const quantityElements = document.querySelectorAll('.product-qunatity');
+    const priceElements = document.querySelectorAll('.value');
+    
+    // ##########################################################
+
     let totalSum = 0;
 
-    // the total sum will be the result of the price multiplied bt it's qunatity
-    for (let i = 0; i < prices.length; i++) {
-        totalSum += prices[i] * qunatities[i];
+    // calucate the total by multiplying the price and qunnatity of each element in cart and then suming them togheter
+    for (let i = 0; i < itemsElements.length; i++) {
+        let price = parseFloat(priceElements[i].innerText.replace('$', ''));
+        totalSum += parseFloat(quantityElements[i].value) * price;
     }
 
     document.querySelector('.total-value').innerHTML = `$ ${totalSum.toFixed(2)}`;
 }
 
-document.body.addEventListener('click', (element) => {
-    if(element.target.classList.contains('product-qunatit')) {
-        if (element.target.value == 0 || element.target.value < 0) {
-            element.target.parentElement.remove();
-        }
+// when the quantity of a product is changed fire up updatePrice function
+document.body.addEventListener('change', (event) => {
+    if (event.target.classList.contains('product-qunatity')) {
+        updatePrice();
     }
+});
+
+
+// when the quantity of a product is changed to zero, the product is removed from the card and added to the item list
+document.body.addEventListener('change', (event) => {
+    if (event.target.classList.contains('product-qunatity') && event.target.value < 1) {
+
+         // create the div that will be the container for the new element added into the card
+        let product = document.createElement('div');
+        product.classList.add('product-container', 'display-flex', 'space-between', 'padding-10')
+
+        // create the element
+        product.innerHTML = `
+       
+                <h3 class="product-title">${event.target.previousSibling.previousSibling.innerText}</h3>
+                <div class="price-container">Price: <span class="price">${event.target.nextSibling.nextSibling.innerText.replace(' ', '')}</span></div>
+                <div class="add-to-cart-button display-flex">
+                    <i class="fas fa-regular fa-cart-arrow-down fa-1x"></i>
+                    <span>Add to cart</span>
+                </div>
+          
+        `; 
+
+        // append the element into the item list
+        document.querySelector('.products-section').append(product);
+
+        // remove the element from the cart
+         event.target.parentElement.remove();
+    }  
 });
